@@ -33,11 +33,11 @@
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    flex-wrap: nowrap; 
+    flex-wrap: nowrap;
     height: 500px;
     width: fit-content;
   }
-  
+
   .post {
     position: relative;
     width: 500px; /* Adjust the width as needed */
@@ -53,7 +53,7 @@
     width: 100%; /* Set maximum width to 100% of the container */
     height: 40%; /* Maintain aspect ratio */
   }
-  
+
   .title {
     position: absolute;
     left: 10%;
@@ -61,7 +61,7 @@
     font-size: 1.4em;
     margin-bottom: 10px;
   }
-  
+
   .content {
     position: absolute;
     top: 60%;
@@ -79,7 +79,7 @@
     color: #007bff;
     text-decoration: none;
   }
-  
+
   a:hover {
     text-decoration: underline;
   }
@@ -131,30 +131,30 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
     </nav>
-    
+
     <div class="wrapper">
-    
+
     <h2>Welcome to Mybog</h2>
     <p>Living an authentic life and sharing to inspire and encourage others</p>
 
     <main>
         @foreach($posts as $post)
-                <div class= "post"> 
+                <div class= "post">
                     <img class="image-post" src="{{ asset($post->image) }}">
                     <div class="title"><h2 id= "title">{{ $post->title }}</h2></div>
                     <div class="content"><p id = "content">{{ $post->content }}</p></div>
-                
-                        
-                    <div class = "buttons"> 
+
+
+                    <div class = "buttons">
                         <div><a href="{{ route('register') }}" method= "post" name= ><button class="like" type="button" value="like">like</button></a>{{ $post->num_like }}</div>
                         <a href="{{ route('register') }}">comment ?</a>
                     </div>
             </div>
-    @endforeach   
-    
+    @endforeach
+
     </main>
-        </div>   
-   
+        </div>
+
 
     <!-- The footer for all pages -->
     <footer>

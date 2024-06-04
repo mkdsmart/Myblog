@@ -21,6 +21,7 @@ Route::get('/edit_post/{id}', [PostController::class, 'edit'])->name('edit_post'
 Route::post('/updat_post', [PostController::class, 'update'])->name('update_post');
 
 Route::get('/like_post/{id}', [PostController::class, 'like'])->name('like_post');
+Route::get('/dislike_post/{id}', [PostController::class, 'dislike'])->name('dislike_post');
 // Route::get('/comment_post/{id}', [PostController::class, 'like'])->name('like_post');
 Route::get('/comment_post/{id}', [PostController::class, 'viewpost'])->name('comment_post');
 Route::post('/save_comment', [PostController::class, 'savecomment'])->name('save_comment');

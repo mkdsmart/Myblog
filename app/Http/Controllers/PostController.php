@@ -16,7 +16,7 @@ class PostController extends Controller
     }
     public function indexadmin(){
         $posts= Post::all();
-        
+
         return view('/adminonly', ['posts'=> $posts]);
     }
 
@@ -33,22 +33,24 @@ class PostController extends Controller
             'image' => 'required|image|max:2048',
         ]);
 
-        
-        // [
-        //     'title.required'=> 'Please enter a title',
-        //     'content.required'=> 'Please enter a content',
-        //     'image.required'=> 'Please upload an image',
-        // ]);
+
+
         // dd($request->File('image'));
         $fileName = time().$request->file('image')->getClientOriginalName();
         $path = $request->file('image')->storeAs('images', $fileName, 'public');
         $validatedData['image']= '/storage/'.$path;
         // dd($validatedData);
-        
-        $post = Post::create($validatedData);
-        $post->createdby = auth()->user()->name;
+
+        $post = Post::create([
+            'title'=> $validatedData['title'],
+            'content'=> $validatedData['content'],
+            'image'=> $validatedData['image'],
+            'createdby'=> auth()->user()->name,
+            'user_id' => auth()->user()->id,
+        ]);
+
         $post->save();
-        
+
 
         return redirect(route('home'));
     }
@@ -68,7 +70,7 @@ class PostController extends Controller
         return view('/editpost', ['post'=> $post]);
 
     }
-    
+
     // To update a post
     public function update(Request $request){
         $validatedData = $request->validate([
@@ -76,7 +78,7 @@ class PostController extends Controller
             'content'=> 'required',
             'image' => 'required|image|max:2048',
         ]);
-        
+
         $fileName = time().$request->file('image')->getClientOriginalName();
         $path = $request->file('image')->storeAs('images', $fileName, 'public');
         $validatedData['image']= '/storage/'.$path;
@@ -84,7 +86,7 @@ class PostController extends Controller
         $id= $request->input('id');
         $post = Post::find($id);
         $post->update($validatedData);
-        
+
 
         return redirect(route('home'));
 
@@ -99,30 +101,40 @@ class PostController extends Controller
         return redirect(route('home'));
 
     }
+
+    //decreasing user like
+    public function dislike($id){
+        $post = Post::find($id);
+        $likes= $post->num_like - 1;
+        $post->update(['num_like' => $likes]);
+
+        return redirect(route('home'));
+
+    }
     public function viewpost($id){
         $post = Post::find($id);
         $comments = Comment::all();
 
         return view('/postdisplay', with(['post'=> $post, 'comments'=> $comments]) );
     }
-    
+
     public function savecomment(Request $request){
         $validatedData = $request->validate([
             'message'=>'required',
-        ]);  
-        
+        ]);
+
         $comment = Comment::create([
             'message' => $request->message,
-            'postid' => $request -> postid,
+            'post_id' => $request -> postid,
             'author' =>  auth()->user()->name,
         ]);
-        // dd($comment-> author);  
+        // dd($comment-> author);
 
         $comment->save();
-        
+
         $comments = Comment::all();
 
-        return redirect(route('comment_post', ['id' => $comment->postid]));
+        return redirect(route('comment_post', ['id' => $comment->post_id]));
     }
 
 }

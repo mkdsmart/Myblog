@@ -96,7 +96,7 @@
 
 
                     <div class = "buttons">
-                        <a href="{{route('delete_post', ['id' => $post->id])}}" method= "post" name= ><button class="dislike" type="button" value="dislike">Dislike</button></a>
+                        <a href="{{route('dislike_post', ['id' => $post->id])}}" method= "post" name= ><button class="dislike" type="button" value="dislike">Dislike</button></a>
                         <div><a href="{{route('like_post', ['id' => $post->id])}}" method= "post" name= ><button class="like" type="button" value="like">like</button></a>{{ $post->num_like }}</div>
                         <a href="{{ route('comment_post', ['id' => $post->id]) }}">comment ?</a>
                     </div>
